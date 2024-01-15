@@ -1,0 +1,53 @@
+@use 'sass:map';
+
+$brand100: map-get($colors, 'brand-100');
+$brand500: map-get($colors, 'brand-500');
+$gray200: map-get($colors, 'gray-200');
+
+.ant-picker-dropdown .ant-picker-content .ant-picker-cell {
+  &:hover {
+    .ant-picker-cell-inner {
+      background: $gray200 !important;
+    }
+  }
+}
+
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-selected {
+  background: $brand100;
+  color: black;
+  border-radius: 8px;
+
+  .ant-picker-cell-inner {
+    background: $brand100;
+    color: black;
+  }
+}
+
+.ant-picker-dropdown .ant-picker-cell-in-view .ant-picker-cell-selected .ant-picker-cell-inner {
+  background: $brand100;
+  color: black;
+}
+
+.ant-picker-dropdown .ant-picker-cell-in-view {
+  &:hover {
+    background: $gray200 !important;
+    border-radius: 8px;
+    transition: 0.6s;
+  }
+
+  &.ant-picker-cell-selected .ant-picker-cell-inner {
+    background: $brand100;
+    color: black;
+  }
+}
+
+.ant-picker-cell-today .ant-picker-cell-inner {
+  border-bottom: 2px solid $brand500;
+  border-radius: 0 !important;
+}
+
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner {
+  &::before {
+    border: none;
+  }
+}

@@ -1,0 +1,84 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+variables:
+  pnpm_config_cache: $(Pipeline.Workspace)/.pnpm-store
+  branch: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+trigger:
+  - master
+  - develop
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - script: |
+      directory="./packages"
+      if [[ "$(branch)" == "develop" ]]; then
+          VERSION_PREFIX=dev
+          find "$directory" -name "package.json" -type f -print0 | while IFS= read -r -d '' file; do
+            current_version=$(jq -r '.version' "$file")
+            new_version="$current_version-$VERSION_PREFIX"
+            echo "Current version: $current_version $file new version $new_version"
+            jq --arg new_version "$new_version" '.version = $new_version' "$file" > temp.json && mv temp.json "$file"
+          done
+      else
+        echo "Skip change version"
+      fi
+  - task: UseNode@1
+    inputs:
+      version: 16.17.0
+    displayName: "Use Node.js 16.17.0"
+  - task: Cache@2
+    inputs:
+      key: 'pnpm | "$(Agent.OS)" | pnpm-lock.yaml'
+      path: $(pnpm_config_cache)
+    displayName: Cache pnpm
+
+  - script: |
+      corepack enable
+      corepack prepare pnpm@8.5.1 --activate
+      pnpm config set store-dir $(pnpm_config_cache)
+    displayName: "Setup pnpm"
+
+  - task: DownloadSecureFile@1
+    name: "npmrc"
+    inputs:
+      secureFile: ".npmrc"
+
+  - task: CopyFiles@2
+    displayName: "Copy npmrc file"
+    inputs:
+      SourceFolder: "$(Agent.TempDirectory)"
+      Contents: ".npmrc"
+      TargetFolder: "."
+      OverWrite: true
+
+  - script: |
+      pnpm install
+    displayName: "PNPM install and build"
+
+    - script: |
+      cd "$(Build.SourcesDirectory)/packages/components"
+      pnpm build
+    displayName: Build @mx/components
+
+  - script: |
+      should_release_component=$(pkg=./packages/components ./should_release_pkg.sh)
+      echo "should_release_component = ${should_release_component}"
+      echo "##vso[task.setvariable variable=should_release_component;]$should_release_component"
+    displayName: Check release condition of @mx/components
+
+
+  - task: Npm@1
+    continueOnError: true
+    inputs:
+      command: "publish"
+      workingDir: "packages/components"
+      verbose: true
+      publishRegistry: "useFeed"
+      publishFeed: "mindx-core/mindx-core"
+    displayName: "Publish @mx/components package"
+    condition: eq(variables.should_release_component, 1)
+
+  

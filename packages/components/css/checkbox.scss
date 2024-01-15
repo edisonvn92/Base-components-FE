@@ -1,0 +1,117 @@
+@use "sass:map";
+$colorWhite: map.get($colors, 'white');
+$colorBgChecked: map.get($colors, 'gray-600');
+$colorBgCheckedHover: map.get($colors, 'gray-500');
+$colorBgCheckedDisabled: map.get($colors, 'gray-500');
+$colorBorderChecked: map.get($colors, 'gray-900');
+$colorBorderCheckedHover: map.get($colors, 'gray-700');
+$colorBorderCheckedDisabled: map.get($colors, 'gray-400');
+
+
+.color-inner {
+    border: 1px solid $colorBorderChecked !important;
+    background-color: $colorBgChecked !important;
+    color: $colorWhite;
+}
+
+.color-inner-hover {
+    background-color: $colorBgCheckedHover !important;
+    border: 2px solid $colorBorderCheckedHover !important;
+    color: $colorWhite !important;
+}
+
+.color-inner-disabled {
+    border: 1px solid $colorBorderCheckedDisabled;
+}
+
+.ant-checkbox-wrapper {
+    &:focus {
+        .ant-checkbox {
+            .ant-checkbox-inner {
+                @include outline();
+            }
+
+            &:focus {
+                .ant-checkbox-inner {
+                    @include outline();
+                }
+
+            }
+        }
+    }
+
+    &:hover {
+        .ant-checkbox {
+            .ant-checkbox-inner {
+                border: 1px solid $colorBorderChecked !important;
+                color: $colorWhite;
+
+                &::after {
+                    color: $colorWhite;
+                }
+            }
+        }
+    }
+
+    .ant-checkbox {
+        &:hover {
+            .ant-checkbox-inner {
+                border: 1px solid $colorBorderCheckedHover !important;
+
+                &::after {
+                    color: $colorWhite;
+                }
+            }
+        }
+    }
+
+    .ant-checkbox-checked {
+        &::after {
+            color: $colorWhite !important;
+            border: 1px solid $colorBorderChecked !important;
+        }
+
+        &.ant-checkbox-disabled {
+            .ant-checkbox-inner {
+                @extend .color-inner-disabled;
+                background-color: $colorBgCheckedDisabled !important;
+                &::after {
+                    color: $colorWhite;
+                }
+            }
+        }
+
+        .ant-checkbox-inner {
+            @extend .color-inner;
+            &::after {
+                color: $colorWhite;
+            }
+
+            &:hover {
+                @extend .color-inner-hover;
+
+                .ant-checkbox-inner {
+                    background-color: $colorBgChecked !important;
+                    color: $colorWhite;
+
+                    &::after {
+                        color: $colorWhite;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+.ant-checkbox-indeterminate {
+    .ant-checkbox-inner {
+        @extend .color-inner;
+
+        &::after {
+            background-color: $colorWhite !important;
+            height: 2px;
+        }
+    }
+
+}

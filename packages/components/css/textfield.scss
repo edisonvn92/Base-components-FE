@@ -1,0 +1,77 @@
+@use 'sass:map';
+
+$gray100: map-get($colors, 'gray-100');
+$gray200: map-get($colors, 'gray-200');
+$gray600: map-get($colors, 'gray-600');
+$gray700: map-get($colors, 'gray-700');
+$gray900: map-get($colors, 'gray-900');
+
+$red500: map-get($colors, 'red-500');
+
+$white: map-get($colors, 'white');
+
+$sizeProps: (
+  large: (height: 48px,
+    padding: 12px,
+  ),
+  medium: (height: 40px,
+    padding: 12px 9px,
+  ),
+  small: (height: 32px,
+    padding: 6px,
+  )
+);
+
+@function get-name-size($name, $sizeProps: $sizeProps) {
+  @return map-get($sizeProps, $name);
+}
+
+@function get-height-size($name, $sizeProps: $sizeProps) {
+  @return map-get(get-name-size($name, $sizeProps), height);
+}
+
+@function get-padding-size($name, $sizeProps: $sizeProps) {
+  @return map-get(get-name-size($name, $sizeProps), padding);
+}
+
+@mixin size($padding, $height) {
+  padding: $padding;
+  height: $height;
+}
+
+@mixin get-size($name) {
+  @include size(get-padding-size($name), get-height-size($name))
+}
+
+@each $name,
+$sizes in $sizeProps {
+  @each $size in $sizes {
+    .#{$name} {
+      display: flex;
+      @include get-size($name);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      align-self: stretch;
+      border: 1px solid $gray600;
+      &:hover {
+        border: 1px solid $gray700; 
+        background-color: $gray100;
+      }
+      &:active {
+        border: 1px solid $gray700; 
+        background-color: $gray200
+      }
+      &.error {
+        border: 2px solid $red500;
+        background-color: $white;
+      }
+      &:disabled {
+        border-radius: 8px;
+        background: $gray200;
+      }
+    }
+  }
+}
+

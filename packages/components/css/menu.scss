@@ -1,0 +1,133 @@
+@use "sass:map";
+$colorWhite: map.get($colors, 'white');
+$colorBrand500: map.get($colors, 'brand-500');
+$colorGray100: map.get($colors, 'gray-100');
+$colorGray200: map.get($colors, 'gray-200');
+$colorGray400: map.get($colors, 'gray-400');
+$colorGray600: map.get($colors, 'gray-600');
+$colorGray800: map.get($colors, 'gray-800');
+$colorGray900: map.get($colors, 'gray-900');
+
+
+.reset-height {
+    height: auto !important;
+    line-height: 0 !important;
+}
+
+.menu-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 16px 0;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.mx-menu-content-title-description {
+    align-items: start !important;
+}
+
+.menu-color-hover {
+    background-color: $colorGray100 !important;
+    color: $colorGray900 !important;
+    border-radius: 0px;
+}
+
+.menu-color-active {
+    border-left: 2px solid $colorBrand500;
+    border-radius: 0px;
+    background-color: $colorGray100;
+    color: $colorGray900;
+}
+
+.menu-disabled {
+    background-color: $colorWhite !important;
+    color: $colorGray400 !important;
+}
+
+.ant-menu {
+    .ant-menu-item {
+        border-radius: 0;
+
+        &.mx-menu-item {
+            &.ant-menu-item-selected {
+                @extend .menu-color-active;
+            }
+
+            @extend .reset-height;
+
+            &:hover {
+                @extend .menu-color-hover;
+            }
+        }
+
+        &.mx-menu-header {
+            &.ant-menu-item-selected {
+                @extend .menu-color-active;
+            }
+
+            @extend .reset-height;
+
+            &:hover {
+                    @extend .menu-color-hover;
+            }
+
+            &.ant-menu-item-disabled {
+                    @extend .menu-disabled;
+            }
+        }
+    }
+
+    .ant-menu-submenu {
+        min-width: 200px;
+        border-radius: 0;
+
+        &.mx-menu-submenu {
+            &.ant-menu-submenu-selected {
+                .ant-menu-submenu-title {
+                    @extend .menu-color-active;
+                }
+            }
+
+            &.ant-menu-item-disabled {
+                .ant-menu-submenu-title {
+                    @extend .menu-disabled;
+                }
+
+            }
+
+            &:hover {
+                .ant-menu-submenu-title {
+                    @extend .menu-color-hover;
+                }
+            }
+
+
+            .ant-menu-submenu-title {
+                @extend .reset-height;
+
+                .ant-menu-title-content {
+                    width: 100%;
+                }
+            }
+
+        }
+    }
+
+    .mx-menu-wrapper {
+        @extend .menu-wrapper;
+
+        .mx-menu-content-title {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            align-items: center;
+        }
+    }
+
+    .mx-menu-label-description {
+        padding-left: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+}

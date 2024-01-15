@@ -1,0 +1,122 @@
+@use "sass:map";
+$menuLineColor: map.get($colors, 'brand-500');
+$menuBgColorActive : map.get($colors, 'gray-200');
+$menuTextColor : map.get($colors, 'gray-900');
+$menuBgColor: map.get($colors, 'transparent-white-00');
+$menuBgColorHover : map.get($colors, 'gray-100');
+$menuTextColorDisabled: map.get($colors, 'gray-400');
+
+
+.header-navigation {
+    line-height: 80px;
+    height: auto;
+}
+
+.arrow-dropdown {
+    display: block;
+    inset-inline-end: -10px;
+}
+.menu-item-selected-after {
+    border-bottom: 2px solid $menuLineColor;
+    inset-inline: 0px;
+    bottom: -2.4px;
+}
+
+.mx-navigation {
+    @extend .header-navigation;
+
+    .ant-menu {
+        &.ant-menu-horizontal {
+            line-height: 48px;
+            padding: 12px 0px;
+
+            .ant-menu-item {
+                padding: 0 12px;
+                border-radius: 8px;
+
+                &:hover {
+                    background-color: $menuBgColorHover;
+                }
+
+                &:active {
+                    background-color: $menuBgColorActive;
+                }
+
+                &::after {
+                    border-bottom: unset;
+                }
+
+            }
+
+            .ant-menu-item-selected {
+                color: $menuTextColor;
+                background-color: $menuBgColor;
+
+                &::after {
+                    @extend .menu-item-selected-after;
+                }
+            }
+
+            .ant-menu-submenu-selected  {
+                color: $menuTextColor;
+                background-color: $menuBgColor;
+
+                &::after {
+                    @extend .menu-item-selected-after;
+                }
+
+                .ant-menu-submenu-title {
+                    color: $menuTextColor;
+                    background-color: $menuBgColor;
+                }
+            }
+            .ant-menu-submenu-open  {
+                color: $menuTextColor;
+                background-color: $menuBgColor;
+
+                &::after {
+                    border-bottom: none;
+                    inset-inline: 0px;
+                    bottom: -2.4px;
+                }
+
+                .ant-menu-submenu-title {
+                    color: $menuTextColor;
+                    background-color: $menuBgColor;
+                }
+            }
+
+            .ant-menu-submenu {
+                padding: 0 12px;
+                border-radius: 8px;
+
+                &:hover {
+                    background-color: $menuBgColorHover;
+
+                    &::after {
+                        border-bottom: unset;
+                    }
+                }
+
+                &:active {
+                    background-color: $menuBgColorActive;
+                }
+
+                .ant-menu-submenu-title {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+
+                .ant-menu-submenu-arrow {
+                    @extend .arrow-dropdown;
+                    transform: rotate(90deg) translateY(-2.5px);
+                    position: unset;
+                }
+
+            }
+        }
+
+
+    }
+}

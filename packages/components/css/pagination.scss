@@ -1,0 +1,48 @@
+@use 'sass:map';
+
+$gray100: map-get($colors, 'gray-100');
+$gray900: map-get($colors, 'gray-900');
+$brand500: map-get($colors, 'brand-500');
+
+$blue600: map-get($colors, 'blue-600');
+
+$white: map-get($colors, 'white');
+
+.ant-pagination .ant-pagination-item {
+  &:hover {
+    background-color: $gray100;
+    a {
+      color: $gray900;
+    }
+  }
+  a {
+    color: $gray900;
+  }
+}
+
+.ant-pagination .ant-pagination-item-active {
+  background-color: $white;
+  border: none;
+  border-bottom: 2px solid $brand500;
+  border-radius: 0;
+  &:hover {
+    border: none;
+    border-radius: 8px;
+  }
+  &:focus {
+    outline: 2px solid $blue600;
+    outline-offset: 1px;
+    background-color: $gray100;
+    border: none;
+    border-radius: 8px;
+  }
+  a {
+    &:hover {
+      color: $gray900;
+      border-bottom: none;
+    }
+    &:focus {
+      border-bottom: none;
+    }
+  }
+}

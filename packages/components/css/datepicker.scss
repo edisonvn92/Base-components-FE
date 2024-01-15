@@ -1,0 +1,44 @@
+@use 'sass:map';
+
+$sizeProps: $sizeProps;
+$gray100: map-get($colors, 'gray-100');
+$gray700: map-get($colors, 'gray-700');
+
+$red600: map-get($colors, 'red-600');
+
+@each $sizeDatePickerName,
+$sizes in $sizeProps {
+  @each $size in $sizes {
+    .size-date-picker-#{$sizeDatePickerName} {
+      display: flex;
+      @include get-size($sizeDatePickerName);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      align-self: stretch;
+      border: 1px solid $gray600;
+      &:hover {
+        border-radius: 8px;
+        border: 1px solid $gray700;
+        background: $gray100;
+      }
+      &:active {
+        border: 1px solid $gray700; 
+      }
+      &.error {
+        border: 2px solid $red500;
+        background-color: $white;
+      }
+      &:disabled {
+        border-radius: 8px;
+        background: $gray200;
+      }
+    }
+  }
+}
+
+.required {
+  color: $red600
+}
+

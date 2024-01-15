@@ -1,0 +1,37 @@
+@use "sass:map";
+$switchBgColor : map.get($colors,'green-600');
+$switchBgColorActive : map.get($colors,'green-500');
+$switchBgColorDisabled: map.get($colors,'gray-100');
+$switchBgHandleColorDisabled: map.get($colors,'gray-400' );
+
+.mx-toggle {
+  &.ant-switch-checked {
+    background-color: $switchBgColor;
+  &:hover {
+    background-color: $switchBgColorActive !important;
+  }
+  &:active {
+    background-color: $switchBgColor;
+  }
+  &:focus {
+    background-color: $switchBgColorActive;
+    @include outline()
+  }
+  &:disabled {
+    background-color: $switchBgColorDisabled;
+  }
+ }
+ .ant-switch-disabled {
+    .ant-switch-checked {
+        background-color: $switchBgColorDisabled !important;
+    }
+    .ant-switch-handle::before {
+        background-color: $switchBgHandleColorDisabled !important;
+  }
+ }
+
+ .ant-switch:focus {
+    @include outline()
+  }
+}
+
